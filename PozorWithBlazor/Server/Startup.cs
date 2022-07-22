@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.ResponseCompression;
 using PozorWithBlazor.Server.Hubs;
 
+
 namespace PozorWithBlazor.Server
 {
     public class Startup
@@ -9,6 +10,7 @@ namespace PozorWithBlazor.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddServerSideBlazor();
             services.AddRazorPages();
             services.AddSignalR();
             services.AddResponseCompression(opts =>
@@ -21,12 +23,26 @@ namespace PozorWithBlazor.Server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
-                endpoints.MapFallbackToFile("index.html");
+                //endpoints.MapFallbackToFile("index.html");
                 endpoints.MapHub<ChatHub>("/chathub");
             });
         }

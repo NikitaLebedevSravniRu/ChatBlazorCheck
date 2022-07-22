@@ -20,13 +20,13 @@
 @code{
     private HubConnection hubConnection;
     private List<string> messages = new List<string>();
-    private string userNameInput;
-    private string messageInput;
+    private string userNameInput = string.Empty;
+    private string messageInput = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/chathub")).Build();
-        hubConnection.On<string, string>("ReceiveMessage", async (userName, message) => 
+        hubConnection.On<string, string>("ReceiveMessage", (userName, message) =>
         {
             messages.Add($"{userName}: {message}");
             StateHasChanged();
@@ -35,5 +35,5 @@
     }
 
     async Task Send()
-        => await hubConnection.SendAsync("SendMessage", userNameInput, messageInput);
+        =>  await hubConnection.SendAsync("SendMessage", userNameInput, messageInput);
 }
