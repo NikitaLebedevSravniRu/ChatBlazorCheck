@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿/*using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using PozorWithBlazor.Server.Hubs;
 
@@ -49,3 +49,4 @@ namespace PozorWithBlazor.Server
 
     }
 }
+*/
